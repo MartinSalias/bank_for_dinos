@@ -9,12 +9,20 @@
 <body>
 
 <div class="container-fluid">
-<%= yield %>
+  <p class="notice"><%= notice %></p>
+  <p class="alert"><%= alert %></p>
+</div>
+</br>
+
+<div class="container-fluid">
+  <%= yield %>
 </div>
 
 <div class="container-fluid">
   <hr>
   <%= link_to "Home", root_path %>
+  &nbsp;
+  <%= link_to "Sign Out", sign_out_path if current_user %>
   &nbsp;
   <small>(c) 2015, Microsoft User Group Argentina</small>
 </div>

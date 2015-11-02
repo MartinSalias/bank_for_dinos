@@ -1,6 +1,5 @@
 source 'http://rubygems.org'
 
-
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.2.4'
 # Twitter Bootstrap
@@ -8,6 +7,7 @@ gem 'twitter-bootstrap-rails'
 
 gem 'daemons', '1.2.3'
 gem 'eventmachine', '1.0.8'
+gem 'devise'
 
 group :development, :test do
   # Use sqlite3 as the database for Active Record
