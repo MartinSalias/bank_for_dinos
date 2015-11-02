@@ -19,10 +19,4 @@ ActiveRecord::Schema.define(version: 20151102175746) do
     t.string   "name"
   end
 
-  create_table "cuenta", force: :cascade do |t|
-    t.string   "name"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
 end
