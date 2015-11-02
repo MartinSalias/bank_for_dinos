@@ -8,7 +8,15 @@
 </head>
 <body>
 
+<div class="container-fluid">
 <%= yield %>
+</div>
 
+<div class="container-fluid">
+  <hr>
+  <%= link_to "Home", root_path %>
+  &nbsp;
+  <small>(c) 2015, Microsoft User Group Argentina</small>
+</div>
 </body>
 </html>
