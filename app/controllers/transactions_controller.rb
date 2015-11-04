@@ -11,7 +11,7 @@ class TransactionsController < ApplicationController
   # GET /account/1/extract
   def extract
     @account = Account.find params[:id]
-    @transaction = @account.transactions.build
+    @transaction = @account.transactions.build # ( :sign => -1 )
   end
 
   # POST /transactions
