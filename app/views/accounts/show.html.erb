@@ -8,6 +8,37 @@
   <dd><%= @account.name %></dd>
 </dl>
 
+<div class="container">
+  <table class="table table-bordered table-striped">
+    <thead>
+      <th>Date / Time</th>
+      <th>Amount</th>
+      <th>Notes</th>
+    </thead>
+    <tfoot>
+      <th>Balance</th>
+      <th style="text-align: right">
+         <%= @account.transactions.balance %> </th>
+    </tfoot>
+    <tbody>
+      <% @account.transactions.each do |tx| %>
+        <tr>
+          <td>
+            <%= tx.created_at.to_s :db %>
+          </td>
+          <td style="text-align: right">
+            <%= tx.amount %>
+          </td>
+          <td>
+            <%= tx.note %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>
+
+
 <%= link_to t('.back', :default => t("helpers.links.back")),
               accounts_path, :class => 'btn btn-default'  %>
 <%= link_to t('.edit', :default => t("helpers.links.edit")),
