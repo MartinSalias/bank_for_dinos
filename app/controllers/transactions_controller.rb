@@ -57,7 +57,7 @@ class TransactionsController < ApplicationController
 
     @transaction_to = Transaction.new(transaction_params)
     @transaction_to.account = Account.find params[:transaction][:account_to_id].to_i
-    @transaction_to.amount = @transaction.amount * 1
+    @transaction_to.amount = @transaction_to.amount * 1
 
     respond_to do |format|
       if @transaction.save && @transaction_to.save
