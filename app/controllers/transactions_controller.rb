@@ -60,7 +60,13 @@ class TransactionsController < ApplicationController
     @transaction_to.amount = @transaction_to.amount * 1
 
     respond_to do |format|
-      if @transaction.save && @transaction_to.save
+      if @transaction.valid? && @transaction_to.valid?
+
+        Transaction.transaction do
+          @transaction.save
+          @transaction_to.save
+        end
+        
         format.html { redirect_to @transaction.account, notice: 'Transaction was successfully created.' }
         format.json { render :show, status: :created, location: @transaction.account }
       else
