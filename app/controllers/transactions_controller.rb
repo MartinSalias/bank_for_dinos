@@ -5,19 +5,21 @@ class TransactionsController < ApplicationController
   # GET /account/1/deposit
   def deposit
     @account = Account.find params[:id]
-    @transaction = @account.transactions.build
+    @transaction = @account.transactions.build( :sign => 1 )
   end
 
   # GET /account/1/extract
   def extract
     @account = Account.find params[:id]
-    @transaction = @account.transactions.build # ( :sign => -1 )
+    @transaction = @account.transactions.build( :sign => -1 )
   end
 
   # POST /transactions
   # POST /transactions.json
   def create
     @transaction = Transaction.new(transaction_params)
+
+    @transaction.amount = @transaction.amount * @transaction.sign.to_i
 
     respond_to do |format|
       if @transaction.save
@@ -38,6 +40,6 @@ class TransactionsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def transaction_params
-      params.require(:transaction).permit(:amount, :account_id, :note)
+      params.require(:transaction).permit(:amount, :account_id, :note, :sign)
     end
 end
