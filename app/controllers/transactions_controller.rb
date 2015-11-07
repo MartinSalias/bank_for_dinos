@@ -63,10 +63,14 @@ class TransactionsController < ApplicationController
       if @transaction.valid? && @transaction_to.valid?
 
         Transaction.transaction do
-          @transaction.save
-          @transaction_to.save
+          begin
+            @transaction.save
+            @transaction_to.save
+          rescue ActiveRecord::StatementInvalid
+            @transaction.errors.add(:base,'rollback please')
+          end
         end
-        
+
         format.html { redirect_to @transaction.account, notice: 'Transaction was successfully created.' }
         format.json { render :show, status: :created, location: @transaction.account }
       else
