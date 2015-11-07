@@ -16,18 +16,51 @@ class TransactionsController < ApplicationController
 
   def transfer
     @account = Account.find params[:id]
-    @transaction = @account.transactions.build( :sign => -1 )
+    @transaction = @account.transactions.build( :sign => 0 )
   end
 
-  # POST /transactions
-  # POST /transactions.json
-  def create
+  def create_extract
     @transaction = Transaction.new(transaction_params)
-
     @transaction.amount = @transaction.amount * @transaction.sign.to_i
 
     respond_to do |format|
       if @transaction.save
+        format.html { redirect_to @transaction.account, notice: 'Extract was successfully created.' }
+        format.json { render :show, status: :created, location: @transaction.account }
+      else
+        format.html { render :extract }
+        format.json { render json: @transaction.account.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+
+  def create_deposit
+    @transaction = Transaction.new(transaction_params)
+    @transaction.amount = @transaction.amount * @transaction.sign.to_i
+
+    respond_to do |format|
+      if @transaction.save
+        format.html { redirect_to @transaction.account, notice: 'Deposit was successfully created.' }
+        format.json { render :show, status: :created, location: @transaction.account }
+      else
+        format.html { render :deposit }
+        format.json { render json: @transaction.account.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+
+  # POST /transactions
+  # POST /transactions.json
+  def create_transfer
+    @transaction = Transaction.new(transaction_params)
+    @transaction.amount = @transaction.amount * -1
+
+    @transaction_to = Transaction.new(transaction_params)
+    @transaction_to.account = Account.find params[:transaction][:account_to_id].to_i
+    @transaction_to.amount = @transaction.amount * 1
+
+    respond_to do |format|
+      if @transaction.save && @transaction_to.save
         format.html { redirect_to @transaction.account, notice: 'Transaction was successfully created.' }
         format.json { render :show, status: :created, location: @transaction.account }
       else
@@ -45,6 +78,6 @@ class TransactionsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def transaction_params
-      params.require(:transaction).permit(:amount, :account_id, :note, :sign)
+      params.require(:transaction).permit(:amount, :account_id, :note, :sign, :account_to_id)
     end
 end

@@ -14,7 +14,7 @@ class Transaction < ActiveRecord::Base
   validate :validate_amount
   #validates_with MyValidator
 
-  attr_accessor :sign
+  attr_accessor :sign, :account_to_id
 
   def validate_amount
     if (sign.to_i < 0 && amount > 0) ||
@@ -23,4 +23,12 @@ class Transaction < ActiveRecord::Base
       errors.add(:amount,'Incorrect amount!')
     end
   end
+
+  def transfer(extract_from,deposit_to)
+    Transaction.transaction do
+      extract_to.save!
+      deposit_to.save!
+    end
+  end
+
 end

@@ -13,6 +13,10 @@ Rails.application.routes.draw do
     member do
       get "deposit", action: :deposit, controller: "transactions"
       get "extract", action: :extract, controller: "transactions"
+      get "transfer", action: :transfer, controller: "transactions"
+      post "create_deposit", action: :create_deposit, controller: "transactions"
+      post "create_extract", action: :create_extract, controller: "transactions"
+      post "create_transfer", action: :create_transfer, controller: "transactions"
     end
   end
 

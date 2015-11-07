@@ -1,7 +1,7 @@
-<h1>Extract for Account <%= @transaction.account.name %> </h1>
+<h1>Transfer from Account <%= @transaction.account.name %> </h1>
 
 <div class="container">
-  <%= form_for @transaction, :url => {:controller => :transactions, :action => :create_extract} do |f| %>
+  <%= form_for @transaction, :url => {:controller => :transactions, :action => :create_transfer} do |f| %>
     <% if @transaction.errors.any? %>
       <div id="error_explanation">
         <h2><%= pluralize(@transaction.errors.count, "error") %> prohibited this transaction from being saved:</h2>
@@ -16,6 +16,11 @@
 
     <%= hidden_field :transaction, :account_id %>
     <%= hidden_field :transaction, :sign %>
+
+    <div class="field">
+      <%= f.label :account_to_id %><br>
+      <%= f.collection_select(:account_to_id, Account.all, :id, :name) %>
+    </div>
 
     <div class="field">
       <%= f.label :amount %><br>

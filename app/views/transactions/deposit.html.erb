@@ -1,8 +1,7 @@
 <h1>Deposit for Account <%= @transaction.account.name %> </h1>
 
 <div class="container">
-
-  <%= form_for(@transaction) do |f| %>
+  <%= form_for @transaction, :url => {:controller => :transactions, :action => :create_deposit} do |f| %>
     <% if @transaction.errors.any? %>
       <div id="error_explanation">
         <h2><%= pluralize(@transaction.errors.count, "error") %> prohibited this transaction from being saved:</h2>
