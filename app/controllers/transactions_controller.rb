@@ -14,6 +14,11 @@ class TransactionsController < ApplicationController
     @transaction = @account.transactions.build( :sign => -1 )
   end
 
+  def transfer
+    @account = Account.find params[:id]
+    @transaction = @account.transactions.build( :sign => -1 )
+  end
+
   # POST /transactions
   # POST /transactions.json
   def create
