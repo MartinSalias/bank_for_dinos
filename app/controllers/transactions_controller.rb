@@ -54,23 +54,28 @@ class TransactionsController < ApplicationController
   def create_transfer
     @transaction = Transaction.new(transaction_params)
     @transaction.amount = @transaction.amount * -1
+    @transaction.sign = -1
 
     @transaction_to = Transaction.new(transaction_params)
     @transaction_to.account = Account.find params[:transaction][:account_to_id].to_i
-    @transaction_to.amount = @transaction_to.amount * 1
+    @transaction_to.sign = 1
 
     respond_to do |format|
-      if @transaction.valid? && @transaction_to.valid?
+      success = @transaction.valid? && @transaction_to.valid?
 
+      if success
         Transaction.transaction do
           begin
             @transaction.save
             @transaction_to.save
           rescue ActiveRecord::StatementInvalid
-            @transaction.errors.add(:base,'rollback please')
+            @transaction.errors.add(:base,'Invalid transfer')
+            success = false
           end
         end
+      end
 
+      if success
         format.html { redirect_to @transaction.account, notice: 'Transaction was successfully created.' }
         format.json { render :show, status: :created, location: @transaction.account }
       else

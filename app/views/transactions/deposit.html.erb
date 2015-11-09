@@ -1,5 +1,5 @@
 <h1>Deposit for Account <%= @transaction.account.name %> </h1>
-
+<h2>Current balance : <%= @transaction.account.transactions.balance %> </h2>
 <div class="container">
   <%= form_for @transaction, :url => {:controller => :transactions, :action => :create_deposit} do |f| %>
     <% if @transaction.errors.any? %>

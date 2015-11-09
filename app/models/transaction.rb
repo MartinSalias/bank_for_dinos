@@ -8,9 +8,9 @@ class Transaction < ActiveRecord::Base
 
   def validate_amount
     if (sign.to_i < 0 && amount > 0) ||
-       ( sign.to_i < 0 && account.transactions.balance < amount) ||
+       ( sign.to_i < 0 && account.transactions.balance < amount.abs) ||
        (sign.to_i > 0 && amount < 0)
-      errors.add(:amount,'Incorrect amount!')
+      errors.add(:amount,'incorrect!')
     end
   end
 end
